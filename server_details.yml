@@ -1,0 +1,19 @@
+---
+- name: Full Server Specifications Report
+  hosts: all
+  tasks:
+    - name: Gather System Facts
+      set_fact:
+        root_disk: "{{ (ansible_mounts | selectattr('mount', 'equalto', '/') | first).size_total | human_readable }}"
+
+    - name: Display Clean Info
+      debug:
+        msg:
+          - "=========================================="
+          - "Hostname      : {{ ansible_hostname }}"
+          - "OS            : {{ ansible_distribution }} {{ ansible_distribution_version }}"
+          - "RAM           : {{ ansible_memtotal_mb }} MB"
+          - "Total Disk    : {{ root_disk }}"
+          - "CPU Cores     : {{ ansible_processor_vcpus }}"
+          - "IP Address    : {{ ansible_default_ipv4.address }}"
+          - "=========================================="
