@@ -1,0 +1,14 @@
+---
+- name: Get List of Local Users
+  hosts: all
+  tasks:
+    - name: Read password file
+      getent:
+        database: passwd
+
+    - name: Display Users List
+      debug:
+        msg:
+          - "================ LIST OF USERS ================"
+          - "{{ ansible_facts.getent_passwd.keys() | list | sort }}"
+          - "==============================================="
